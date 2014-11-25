@@ -5,8 +5,6 @@
 'use strict';
 var React = require('react');
 var Nav = require('./Nav.jsx');
-var Home = require('./Home.jsx');
-var About = require('./About.jsx');
 var Timestamp = require('./Timestamp.jsx');
 var ApplicationStore = require('../stores/ApplicationStore');
 var RouterMixin = require('flux-router-component').RouterMixin;
@@ -26,12 +24,25 @@ var Application = React.createClass({
         this.setState(state);
     },
     render: function () {
-        return (
-            <div>
-                <Nav selected={this.state.currentPageName} links={this.state.pages} context={this.props.context}/>
-                {'home' === this.state.currentPageName ? <Home/> : <About/>}
-                <Timestamp context={this.props.context}/>
-            </div>
+        var route = this.state.pages[this.state.currentPageName];
+        var pageName = route.page;
+        pageName = pageName.charAt(0).toUpperCase() + pageName.slice(1);
+
+        var Content = require('./'+pageName+'.jsx');
+
+        return React.createElement(
+            'div',
+            {},
+            React.createElement(
+                Nav,
+                {
+                    selected: this.state.currentPageName,
+                    links: this.state.pages,
+                    context: this.props.context
+                }
+            ),
+            React.createElement(Content),
+            React.createElement(Timestamp, {context: this.props.context})
         );
     }
 });
