@@ -6,8 +6,10 @@
 var React = require('react');
 var NavLink = require('flux-router-component').NavLink;
 
-function capitalizeFirstLetter (string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+function formatTextForLabel(string) {
+    return string.replace("_", " ").replace(/(?:^|\s)\S/g, function(a) {
+        return a.toUpperCase();
+    });
 }
 
 var Nav = React.createClass({
@@ -29,8 +31,8 @@ var Nav = React.createClass({
                 }
 
                 return (
-                    <li className={className} key={name}>
-                        <NavLink routeName={link.page} context={context}>{capitalizeFirstLetter(link.page)}</NavLink>
+                    <li className={className} key={link.path}>
+                        <NavLink href={link.path} routeName={link.page} context={context}>{formatTextForLabel(name)}</NavLink>
                     </li>
                 );
             });
