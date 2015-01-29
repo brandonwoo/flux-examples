@@ -25,9 +25,8 @@ var Application = React.createClass({
     },
     render: function () {
         var pageName = this.state.currentPageName;
-        var route = this.state.pages[pageName];
-        var pageClass = route.page;
-        pageClass = pageClass.charAt(0).toUpperCase() + pageClass.slice(1);
+        var route = this.state.route;
+        var pageClass = route.config.reactComponent;
 
         //choose the right page based on the route
         var Content = require('./'+pageClass+'.jsx');
